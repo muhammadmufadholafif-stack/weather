@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Weather | LKS Cloud Computing</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar">
+  <h1 class="logo"><i class="fa-solid fa-cloud-sun"></i> Cloud Weather</h1>
+  <div class="menu">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Beranda</a>
+    <a href="about.html"><i class="fa-solid fa-user"></i> Tentang</a>
+  </div>
+</nav>
+
+<header class="hero fade">
+  <h1>Aplikasi Cuaca Realtime</h1>
+  <p>Website demo Cloud Computing dengan integrasi Public API Open-Meteo.<br>
+Aplikasi ini dibuat untuk menjadi sebagai bagian darui LKS Ma'arif 2026 yang diselenggarakan di SMK Islam 1 Blitar</p>
+</header>
+
+<main class="container fade">
+  <section class="grid">
+
+    <div class="card">
+      <h2><i class="fa-solid fa-circle-info"></i> Tentang Aplikasi</h2>
+    <p> Cloud Weather adalah aplikasi web sederhana berbasis cloud computing yang menampilkan informasi cuaca realtime dari berbagai kota menggunakan Public API Open-Meteo.
+         <br>
+         <hr class="line">
+         <b>berikut merupakan teknologi yang digunakan pada website ini:</b></p>
+             <div class="badges">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>Public API</span>
+        <span>Cloud Hosting</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fa-solid fa-cloud"></i> Cek Cuaca</h2>
+      <p>Masukkan nama kota untuk melihat kondisi cuaca terkini.</p>
+
+      <div class="weather-box">
+        <input type="text" id="city" placeholder="Contoh: Jakarta">
+        <button onclick="getWeather()">Cek Cuaca</button>
+        <div id="weather-result">Belum ada data cuaca.</div>
+      </div>
+    </div>
+
+    
+
+     <div class="card">
+      <h2><i class="fa-solid fa-rocket"></i> Cara Menggunakan</h2>
+      <ul>
+        <li>Masukkan nama kota</li>
+        <li>Klik tombol Cek Cuaca</li>
+        <li>Data cuaca akan muncul otomatis</li>
+      </ul>
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  &copy; 2026 LKS MA'ARIF | By M. Mufadhol Afif
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
