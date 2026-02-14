@@ -1,76 +1,217 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloud Weather | LKS Cloud Computing</title>
-
+  <title>Cloud Weather Pro | Real-time Weather App</title>
+  
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
+<!-- Loading Screen -->
+<div class="loading-screen">
+  <div class="loader">
+    <i class="fa-solid fa-cloud-sun fa-3x"></i>
+    <p>Loading Weather...</p>
+  </div>
+</div>
+
+<!-- Theme Toggle -->
+<button class="theme-toggle" id="themeToggle">
+  <i class="fa-solid fa-moon"></i>
+</button>
+
 <nav class="navbar">
-  <h1 class="logo"><i class="fa-solid fa-cloud-sun"></i> Cloud Weather</h1>
-  <div class="menu">
-    <a href="index.html"><i class="fa-solid fa-house"></i> Beranda</a>
-    <a href="about.html"><i class="fa-solid fa-user"></i> Tentang</a>
+  <div class="nav-container">
+    <h1 class="logo">
+      <i class="fa-solid fa-cloud-sun"></i> 
+      <span>Cloud Weather</span>
+      <span class="pro-badge">PRO</span>
+    </h1>
+    <div class="menu">
+      <a href="#home" class="active"><i class="fa-solid fa-house"></i> Beranda</a>
+      <a href="about.html"><i class="fa-solid fa-circle-info"></i> Tentang</a>
+    </div>
   </div>
 </nav>
 
-<header class="hero fade">
-  <h1>Aplikasi Cuaca Realtime</h1>
-  <p>Website demo Cloud Computing dengan integrasi Public API Open-Meteo.<br>
-Aplikasi ini dibuat untuk menjadi sebagai bagian darui LKS Ma'arif 2026 yang diselenggarakan di SMK Islam 1 Blitar</p>
+<!-- Hero Section -->
+<header class="hero" id="home">
+  <div class="hero-content">
+    <h1 class="hero-title">Aplikasi Cuaca Real-time</h1>
+    <p class="hero-subtitle">
+      Dapatkan informasi cuaca akurat dengan data lengkap dari Open-Meteo API
+    </p>
+    <div class="hero-features">
+      <span><i class="fa-solid fa-location-dot"></i> Auto Location</span>
+      <span><i class="fa-solid fa-calendar-week"></i> 7-Day Forecast</span>
+      <span><i class="fa-solid fa-cloud-sun"></i> Real-time Data</span>
+    </div>
+  </div>
 </header>
 
-<main class="container fade">
-  <section class="grid">
+<!-- Main Content -->
+<main class="container">
+  
+  <!-- Search Section -->
+  <section class="search-section">
+    <div class="search-card glass">
+      <h2><i class="fa-solid fa-magnifying-glass"></i> Cari Cuaca Kota</h2>
+      
+      <div class="search-box">
+        <input type="text" id="cityInput" placeholder="Masukkan nama kota..." />
+        <button class="btn-search" onclick="searchWeather()">
+          <i class="fa-solid fa-search"></i> Cari
+        </button>
+        <button class="btn-location" onclick="getCurrentLocation()" title="Gunakan lokasi saya">
+          <i class="fa-solid fa-location-crosshairs"></i>
+        </button>
+      </div>
 
-    <div class="card">
-      <h2><i class="fa-solid fa-circle-info"></i> Tentang Aplikasi</h2>
-    <p> Cloud Weather adalah aplikasi web sederhana berbasis cloud computing yang menampilkan informasi cuaca realtime dari berbagai kota menggunakan Public API Open-Meteo.
-         <br>
-         <hr class="line">
-         <b>berikut merupakan teknologi yang digunakan pada website ini:</b></p>
-             <div class="badges">
-        <span>HTML</span>
-        <span>CSS</span>
-        <span>JavaScript</span>
-        <span>Public API</span>
-        <span>Cloud Hosting</span>
+      <!-- Recent Searches -->
+      <div class="recent-searches" id="recentSearches"></div>
+    </div>
+  </section>
+
+  <!-- Current Weather -->
+  <section class="current-weather" id="currentWeather" style="display: none;">
+    <div class="weather-card glass">
+      <div class="weather-header">
+        <div class="location-info">
+          <h2 id="cityName"><i class="fa-solid fa-location-dot"></i> Loading...</h2>
+          <p id="currentTime"></p>
+        </div>
+        <div class="weather-icon-main" id="weatherIcon">
+          <i class="fa-solid fa-cloud-sun fa-4x"></i>
+        </div>
+      </div>
+
+      <div class="weather-main">
+        <div class="temperature">
+          <span id="tempValue">--</span>
+          <span class="temp-unit">°C</span>
+        </div>
+        <p class="weather-description" id="weatherDesc">Loading...</p>
+        <p class="feels-like">Terasa seperti <span id="feelsLike">--°C</span></p>
+      </div>
+
+      <div class="weather-details">
+        <div class="detail-item">
+          <i class="fa-solid fa-droplet"></i>
+          <div>
+            <p class="label">Kelembaban</p>
+            <p class="value" id="humidity">--%</p>
+          </div>
+        </div>
+        <div class="detail-item">
+          <i class="fa-solid fa-wind"></i>
+          <div>
+            <p class="label">Kecepatan Angin</p>
+            <p class="value" id="windSpeed">-- km/h</p>
+          </div>
+        </div>
+        <div class="detail-item">
+          <i class="fa-solid fa-gauge"></i>
+          <div>
+            <p class="label">Tekanan</p>
+            <p class="value" id="pressure">-- hPa</p>
+          </div>
+        </div>
+        <div class="detail-item">
+          <i class="fa-solid fa-eye"></i>
+          <div>
+            <p class="label">Jarak Pandang</p>
+            <p class="value" id="visibility">-- km</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sun Times -->
+      <div class="sun-times">
+        <div class="sun-item">
+          <i class="fa-solid fa-sun sunrise"></i>
+          <div>
+            <p class="label">Matahari Terbit</p>
+            <p class="value" id="sunrise">--:--</p>
+          </div>
+        </div>
+        <div class="sun-item">
+          <i class="fa-solid fa-moon sunset"></i>
+          <div>
+            <p class="label">Matahari Terbenam</p>
+            <p class="value" id="sunset">--:--</p>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="card">
-      <h2><i class="fa-solid fa-cloud"></i> Cek Cuaca</h2>
-      <p>Masukkan nama kota untuk melihat kondisi cuaca terkini.</p>
-
-      <div class="weather-box">
-        <input type="text" id="city" placeholder="Contoh: Jakarta">
-        <button onclick="getWeather()">Cek Cuaca</button>
-        <div id="weather-result">Belum ada data cuaca.</div>
-      </div>
+  <!-- 7-Day Forecast -->
+  <section class="forecast-section" id="forecastSection" style="display: none;">
+    <h2 class="section-title">
+      <i class="fa-solid fa-calendar-week"></i> Ramalan 7 Hari
+    </h2>
+    <div class="forecast-grid" id="forecastGrid">
+      <!-- Forecast cards akan di-generate oleh JavaScript -->
     </div>
+  </section>
 
+  <!-- About Section -->
+  <section class="about-section glass" id="about">
+    <h2><i class="fa-solid fa-circle-info"></i> Tentang Aplikasi</h2>
+    <p>
+      Cloud Weather Pro adalah aplikasi cuaca modern berbasis web yang menampilkan 
+      informasi cuaca real-time dan ramalan 7 hari menggunakan Open-Meteo API.
+    </p>
     
+    <div class="tech-stack">
+      <h3>Teknologi yang Digunakan:</h3>
+      <div class="badges">
+        <span><i class="fa-brands fa-html5"></i> HTML5</span>
+        <span><i class="fa-brands fa-css3-alt"></i> CSS3</span>
+        <span><i class="fa-brands fa-js"></i> JavaScript</span>
+        <span><i class="fa-solid fa-cloud"></i> Open-Meteo API</span>
+        <span><i class="fa-solid fa-location-dot"></i> Geolocation API</span>
+        <span><i class="fa-solid fa-database"></i> LocalStorage</span>
+      </div>
+    </div>
 
-     <div class="card">
-      <h2><i class="fa-solid fa-rocket"></i> Cara Menggunakan</h2>
+    <div class="features-list">
+      <h3>Fitur Unggulan:</h3>
       <ul>
-        <li>Masukkan nama kota</li>
-        <li>Klik tombol Cek Cuaca</li>
-        <li>Data cuaca akan muncul otomatis</li>
+        <li><i class="fa-solid fa-check"></i> Deteksi lokasi otomatis (GPS)</li>
+        <li><i class="fa-solid fa-check"></i> Ramalan cuaca 7 hari ke depan</li>
+        <li><i class="fa-solid fa-check"></i> Data cuaca lengkap (suhu, kelembaban, tekanan, dll)</li>
+        <li><i class="fa-solid fa-check"></i> Waktu matahari terbit & terbenam</li>
+        <li><i class="fa-solid fa-check"></i> Riwayat pencarian tersimpan</li>
+        <li><i class="fa-solid fa-check"></i> Mode gelap & terang</li>
+        <li><i class="fa-solid fa-check"></i> Responsive untuk semua device</li>
       </ul>
     </div>
 
+    <div class="creator-info">
+      <p>
+        <i class="fa-solid fa-code"></i> Dibuat dengan ❤️ untuk 
+        <strong>LKS Ma'arif 2026</strong> di SMK Islam 1 Blitar
+      </p>
+      <p>
+        <i class="fa-solid fa-user"></i> Developer: 
+        <strong>Muhammad Mufadhol Afif (fanskey)</strong>
+      </p>
+    </div>
   </section>
+
 </main>
 
 <footer>
-  &copy; 2026 LKS MA'ARIF | By M. Mufadhol Afif
+  <div class="footer-content">
+    <p>&copy; 2026 Cloud Weather Pro | LKS MA'ARIF</p>
+    <p>Powered by <a href="https://open-meteo.com" target="_blank">Open-Meteo API</a></p>
+  </div>
 </footer>
 
 <script src="js/script.js"></script>
